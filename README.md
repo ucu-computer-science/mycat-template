@@ -1,4 +1,4 @@
-# Lab 2 Option 3: Adder
+# mycat
 
 ## Team
 
@@ -15,7 +15,7 @@ Dependencies (such as development libraries) can be found in the [dependencies f
 
 1. Clone the project.
     ```bash
-    git clone git@github.com:chernetskyi/cpp-template.git
+    git clone git@github.com:chernetskyi/mycat-template.git
     ```
 2. Install required packages.
 
@@ -37,9 +37,13 @@ Dependencies (such as development libraries) can be found in the [dependencies f
 ## Usage
 
 ```bash
-add [a] [b]
+mycat [OPTION]... [FILE]...
 ```
 
-If less than two numbers provided, zeroes are used instead. If more - an error occurs.
+Reads specified files to stdout.
+
+If one of the multiple files cannot be read mycat will fail and print nothing to stdout.
+
+Option -A replaces invisible non-whitespace characters with their hexadecimal values.
 
 Help flags `-h`/`--help` support is available.
