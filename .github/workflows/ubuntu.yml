@@ -7,26 +7,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
-
-    strategy:
-      matrix:
-        cc: [gcc, clang]
-        include:
-          - cc: gcc
-            cxx: g++
-          - cc: clang
-            cxx: clang++
-
     steps:
     - uses: actions/checkout@v2
+
+    - name: Install PVS-Studio
+      run: |
+        wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add -
+        sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
+        sudo apt-get update
+        sudo apt-get install -y pvs-studio
+        pvs-studio-analyzer credentials PVS-Studio Free FREE-FREE-FREE-FREE
 
     - name: Install dependencies
       run: |
         [[ -r dependencies/apt.txt ]] && sed 's/#.*//' dependencies/apt.txt | xargs sudo apt-get install -y
 
     - name: Configure
-      run: CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} cmake -DENABLE_CONAN=OFF -Bbuild
+      run: cmake -DENABLE_CONAN=OFF -Bbuild
 
     - name: Build
       run: cmake --build build
+
+    - name: PVS-Studio errors
+      run: |
+        [[ -z $(grep -v 'www.viva64.com/en/w:1:1: error: Help:' build/target.err) ]]
