@@ -4,6 +4,20 @@
 
  - [Volodymyr Chernetskyi](https://github.com/chernetskyi)
 
+## Usage
+
+```bash
+mycat [OPTION]... [FILE]...
+```
+
+Reads specified files to stdout.
+
+If one of the multiple files cannot be read, `mycat` will fail and print nothing to stdout.
+
+Option `-A` replaces invisible non-whitespace characters with their hexadecimal values.
+
+Help flags `-h`/`--help` support is available.
+
 ## Prerequisites
 
  - **C++ compiler** - needs to support **C++17** standard
@@ -33,17 +47,3 @@ Dependencies (such as development libraries) can be found in the [dependencies f
     cmake -Bbuild
     cmake --build build
     ```
-
-## Usage
-
-```bash
-mycat [OPTION]... [FILE]...
-```
-
-Reads specified files to stdout.
-
-If one of the multiple files cannot be read, `mycat` will fail and print nothing to stdout.
-
-Option `-A` replaces invisible non-whitespace characters with their hexadecimal values.
-
-Help flags `-h`/`--help` support is available.
