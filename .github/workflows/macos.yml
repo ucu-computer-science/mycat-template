@@ -15,7 +15,7 @@ jobs:
         [[ -r dependencies/homebrew.txt ]] && sed 's/#.*//' dependencies/homebrew.txt | xargs brew install
 
     - name: Configure
-      run: cmake -DENABLE_CONAN=OFF -Bbuild
+      run: cmake -DENABLE_CONAN=OFF -DENABLE_PVS_STUDIO=OFF -Bbuild
 
     - name: Build
       run: cmake --build build

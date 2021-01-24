@@ -19,7 +19,7 @@ jobs:
           fi
 
       - name: Configure
-        run: cmake -DBOOST_ROOT="$env:BOOST_ROOT_1_72_0" -DBOOST_INCLUDEDIR="$env:BOOST_ROOT_1_72_0"\boost\include -DBOOST_LIBRARYDIR="$env:BOOST_ROOT_1_72_0"\lib -Bbuild
+        run: cmake -DBOOST_ROOT="$env:BOOST_ROOT_1_72_0" -DBOOST_INCLUDEDIR="$env:BOOST_ROOT_1_72_0"\boost\include -DBOOST_LIBRARYDIR="$env:BOOST_ROOT_1_72_0"\lib -DENABLE_PVS_STUDIO=OFF -Bbuild
 
       - name: Build
         run: cmake -DBOOST_ROOT="$env:BOOST_ROOT_1_72_0" -DBOOST_INCLUDEDIR="$env:BOOST_ROOT_1_72_0"\boost\include -DBOOST_LIBRARYDIR="$env:BOOST_ROOT_1_72_0"\lib --build build
