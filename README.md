@@ -42,8 +42,8 @@ mycat [OPTION]... [FILE]...
 
 Reads specified files to stdout.
 
-If one of the multiple files cannot be read mycat will fail and print nothing to stdout.
+If one of the multiple files cannot be read, `mycat` will fail and print nothing to stdout.
 
-Option -A replaces invisible non-whitespace characters with their hexadecimal values.
+Option `-A` replaces invisible non-whitespace characters with their hexadecimal values.
 
 Help flags `-h`/`--help` support is available.
