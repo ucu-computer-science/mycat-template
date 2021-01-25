@@ -2,8 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 #include <iostream>
-#include <unistd.h>
 #include <sys/wait.h>
+#include <unistd.h>
+#include <signal.h>
 
 int main(int argc, char *argv[]) {
     pid_t pid = fork();
