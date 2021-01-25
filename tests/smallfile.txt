@@ -1,0 +1,4 @@
+some very small file
+with multiple line of text
+and Windows newlines
+to test mycat

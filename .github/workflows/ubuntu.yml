@@ -18,6 +18,9 @@ jobs:
         sudo apt-get install -y pvs-studio
         pvs-studio-analyzer credentials PVS-Studio Free FREE-FREE-FREE-FREE
 
+    - name: Install valgrind
+      run: sudo apt-get install -y valgrind
+
     - name: Install dependencies
       run: |
         [[ -r dependencies/apt.txt ]] && sed 's/#.*//' dependencies/apt.txt | xargs sudo apt-get install -y
@@ -28,6 +31,39 @@ jobs:
     - name: Build
       run: cmake --build build
 
-    - name: PVS-Studio errors
+    - name: "Test 1: PVS-Studio"
       run: |
         [[ -z $(grep -v 'www.viva64.com/en/w:1:1: error: Help:' build/target.err) ]]
+
+    - name: "Test 2: help flags"
+      run: |
+        build/mycat -h > /dev/null
+        build/mycat --help > /dev/null
+        diff <(build/mycat nonexistentfile -h 2> /dev/null) <(build/mycat -h) &> /dev/null
+        diff <(build/mycat nonexistentfile --help 2> /dev/null) <(build/mycat --help) &> /dev/null
+
+    - name: "Test 3: error behavior"
+      run: |
+        [[ -n $(build/mycat nonexistentfile 2> /dev/stdout > /dev/null) ]]
+        ! build/mycat nonexistentfile &> /dev/null
+
+    - name: "Test 4: file reading"
+      run: |
+        diff <(build/mycat tests/smallfile.txt 2> /dev/null) <(cat tests/smallfile.txt) &> /dev/null
+        diff <(build/mycat tests/war_and_peace.txt 2> /dev/null) <(cat tests/war_and_peace.txt) &> /dev/null
+        diff <(build/mycat tests/smallfile.txt tests/war_and_peace.txt 2> /dev/null) <(cat tests/smallfile.txt tests/war_and_peace.txt) &> /dev/null
+        [[ -z $(build/mycat tests/smallfile.txt nonexistentfile tests/war_and_peace.txt 2> /dev/null) ]]
+
+    - name: "Test 5: -A flag"
+      run: |
+        build/mycat -A tests/txtfiles.zip
+
+    - name: "Test 6: signal bombing"
+      run: |
+        diff <(build/signal_bomber build/mycat tests/war_and_peace.txt 2> /dev/null) <(cat tests/war_and_peace.txt) &> /dev/null
+        build/signal_bomber build/mycat -A tests/txtfiles.zip
+
+    - name: "Test 7: valgrind"
+      run: |
+        valgrind build/mycat tests/war_and_peace.txt &> /dev/null
+        valgrind build/mycat -A tests/txtfiles.zip &> /dev/null

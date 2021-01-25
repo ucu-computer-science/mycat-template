@@ -20,6 +20,7 @@ add_library(cat STATIC
             src/cat/cat.cpp inc/cat/cat.hpp)
 add_executable(mycat src/main.cpp)
 target_link_libraries(mycat cat)
+add_executable(signal_bomber src/signal_bomber.cpp)
 
 # Add external packages
 set(Boost_USE_STATIC_LIBS ON)
@@ -28,7 +29,7 @@ include_directories(${Boost_INCLUDE_DIR})
 target_link_libraries(mycat Boost::program_options)
 
 # Define ALL_TARGETS variable to use in some directives
-set(ALL_TARGETS cat mycat)
+set(ALL_TARGETS cat mycat signal_bomber)
 
 # Include default CMake configuration
 include(cmake/Config.cmake)

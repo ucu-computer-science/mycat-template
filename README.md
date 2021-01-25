@@ -47,3 +47,7 @@ Dependencies (such as development libraries) can be found in the [dependencies f
     cmake -Bbuild
     cmake --build build
     ```
+4. Test.
+    ```bash
+    tests/runtests.sh ./build ./tests
+    ```
