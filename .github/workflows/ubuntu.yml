@@ -28,6 +28,25 @@ jobs:
     - name: Build
       run: cmake --build build
 
-    - name: PVS-Studio errors
+    - name: "Test 1: PVS-Studio"
       run: |
         [[ -z $(grep -v 'www.viva64.com/en/w:1:1: error: Help:' build/target.err) ]]
+
+    - name: "Test 2: help flags"
+      run: |
+        build/mycat -h
+        build/mycat --help
+        diff <(build/mycat nonexistentfile -h 2> /dev/null) <(build/mycat -h) &> /dev/null
+        diff <(build/mycat nonexistentfile --help 2> /dev/null) <(build/mycat --help) &> /dev/null
+
+    - name: "Test 3: error behavior"
+      run: |
+        [[ -n $(build/mycat nonexistentfile 2> /dev/stdout > /dev/null) ]]
+        ! build/mycat nonexistentfile &> /dev/null
+
+    - name: "Test 4: file reading"
+      run: |
+        diff <(build/mycat tests/smallfile.txt 2> /dev/null) <(cat tests/smallfile.txt) &> /dev/null
+        diff <(build/mycat tests/war_and_peace.txt 2> /dev/null) <(cat tests/war_and_peace.txt) &> /dev/null
+        diff <(build/mycat tests/smallfile.txt tests/war_and_peace.txt 2> /dev/null) <(cat tests/smallfile.txt tests/war_and_peace.txt) &> /dev/null
+        [[ -z $(build/mycat tests/smallfile.txt nonexistentfile tests/war_and_peace.txt 2> /dev/null) ]]
