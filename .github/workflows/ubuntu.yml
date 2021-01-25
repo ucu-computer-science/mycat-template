@@ -18,6 +18,9 @@ jobs:
         sudo apt-get install -y pvs-studio
         pvs-studio-analyzer credentials PVS-Studio Free FREE-FREE-FREE-FREE
 
+    - name: Install valgrind
+      run: sudo apt-get install -y valgrind
+
     - name: Install dependencies
       run: |
         [[ -r dependencies/apt.txt ]] && sed 's/#.*//' dependencies/apt.txt | xargs sudo apt-get install -y
@@ -50,3 +53,17 @@ jobs:
         diff <(build/mycat tests/war_and_peace.txt 2> /dev/null) <(cat tests/war_and_peace.txt) &> /dev/null
         diff <(build/mycat tests/smallfile.txt tests/war_and_peace.txt 2> /dev/null) <(cat tests/smallfile.txt tests/war_and_peace.txt) &> /dev/null
         [[ -z $(build/mycat tests/smallfile.txt nonexistentfile tests/war_and_peace.txt 2> /dev/null) ]]
+
+    - name: "Test 5: -A flag"
+      run: |
+        build/mycat -A tests/txtfiles.zip
+
+    - name: "Test 6: signal bombing"
+      run: |
+        diff <(build/signal_bomber build/mycat tests/war_and_peace.txt 2> /dev/null) <(cat tests/war_and_peace.txt) &> /dev/null
+        build/signal_bomber build/mycat -A tests/txtfiles.zip
+
+    - name: "Test 7: valgrind"
+      run: |
+        valgrind build/mycat tests/war_and_peace.txt &> /dev/null
+        valgrind build/mycat -A tests/txtfiles.zip &> /dev/null
