@@ -37,8 +37,8 @@ jobs:
 
     - name: "Test 2: help flags"
       run: |
-        build/mycat -h
-        build/mycat --help
+        build/mycat -h > /dev/null
+        build/mycat --help > /dev/null
         diff <(build/mycat nonexistentfile -h 2> /dev/null) <(build/mycat -h) &> /dev/null
         diff <(build/mycat nonexistentfile --help 2> /dev/null) <(build/mycat --help) &> /dev/null
 
