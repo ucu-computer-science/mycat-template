@@ -30,7 +30,7 @@ jobs:
     - name: Build
       run: |
         [[ -r dependencies/apt.txt ]] && sed 's/#.*//' dependencies/apt.txt | xargs sudo apt-get install -y
-        cmake -DENABLE_CONAN=OFF -Bbuild
+        cmake -DENABLE_CONAN=OFF -DENABLE_PVS_STUDIO=OFF -Bbuild
         cmake --build build
 
     - name: Perform CodeQL Analysis
