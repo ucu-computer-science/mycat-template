@@ -37,7 +37,7 @@
     # Test 5: -A flag
     echo
     echo "# Test 5: -A flag"
-    $BINDIR/mycat -A $TESTDIR/txtfiles.zip \
+    $BINDIR/mycat -A $TESTDIR/txtfiles.zip > /dev/null \
         || >&2 echo "mycat fails on reading zip archive with -A"
     
     # Test 6: signal bombing
@@ -45,7 +45,7 @@
     echo "# Test 6: signal bombing"
     diff <($BINDIR/signal_bomber $BINDIR/mycat $TESTDIR/war_and_peace.txt 2> /dev/null) <(cat $TESTDIR/war_and_peace.txt) &> /dev/null \
         || >&2 echo "mycat output differs from cat during signal bombing"
-    $BINDIR/signal_bomber $BINDIR/mycat -A $TESTDIR/txtfiles.zip \
+    $BINDIR/signal_bomber $BINDIR/mycat -A $TESTDIR/txtfiles.zip > /dev/null \
         || >&2 echo "mycat fails on reading zip archive with -A during signal bombing"
 
     # Test 7: valgrind
