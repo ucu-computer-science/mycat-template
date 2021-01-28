@@ -29,7 +29,7 @@ Dependencies (such as development libraries) can be found in the [dependencies f
 
 1. Clone the project.
     ```bash
-    git clone git@github.com:chernetskyi/mycat-template.git
+    git clone git@github.com:ucu-computer-systems/mycat-template.git
     ```
 2. Install required packages.
 
