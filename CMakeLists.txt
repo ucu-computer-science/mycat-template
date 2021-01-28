@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(mycat
         VERSION 1.0.0
         DESCRIPTION "Read files to stdout"
-        HOMEPAGE_URL "https://github.com/chernetskyi/mycat-template"
+        HOMEPAGE_URL "https://github.com/ucu-computer-systems/mycat-template"
         LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 11)
